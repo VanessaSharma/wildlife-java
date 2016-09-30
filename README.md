@@ -48,7 +48,7 @@ It may take a few days for new Rangers to familiarize themselves with the app. T
 
 
 #### Database Diagram:
-![database diagram](database picture)
+![database diagram](screenshot.jpg)
 
 #### Technical Specifications:
 
