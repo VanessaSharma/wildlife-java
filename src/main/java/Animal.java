@@ -19,6 +19,13 @@ public abstract class Animal {
     return type;
   }
 
+  // public static List<Animal> all() {
+  //   String sql = "SELECT * FROM animals";
+  //   try(Connection cn = DB.sql2o.open()) {
+  //     return cn.createQuery(sql).executeAndFetch(Animal.class);
+  //   }
+  // }
+
   public static Animal find(int id) {
     try(Connection cn = DB.sql2o.open()) {
       String sql = "SELECT * FROM animals WHERE id=:id:";

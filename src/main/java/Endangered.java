@@ -41,33 +41,45 @@ public class Endangered extends Animal{
   }
 
   public static List<Endangered> all() {
-    String sql = "SELECT * FROM endangereds";
-    try(Connection cn = DB.sql2o.open()) {
-      return cn.createQuery(sql).executeAndFetch(Endangered.class);
-    }
-  }
-
+   String sql = "SELECT * FROM animals WHERE type = 'endangered';";
+   try(Connection con = DB.sql2o.open()) {
+     return con.createQuery(sql)
+     .throwOnMappingFailure(false)
+     .executeAndFetch(Endangered.class);
+   }
+ }
   public static Endangered find(int id) {
     try(Connection cn = DB.sql2o.open()) {
-      String sql = "SELECT * FROM endangereds WHERE id=:id:";
+      String sql = "SELECT * FROM animals WHERE id=:id:";
       Endangered endangered = cn.createQuery(sql)
         .addParameter("id", id)
+        .throwOnMappingFailure(false)
         .executeAndFetchFirst(Endangered.class);
       return endangered;
     }
   }
 
-  public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO endangereds (name, health, age, animalId) VALUES (:name, :health, :age, :animalId)";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .addParameter("health", this.health)
-        .addParameter("age", this.age)
-        .addParameter("animalId", this.animalId)
-        .executeUpdate()
-        .getKey();
+  public List<Sighting> getSightings() {
+     try(Connection con = DB.sql2o.open()) {
+       String sql = "SELECT * FROM sightings WHERE animalId = :id;";
+       return con.createQuery(sql)
+       .addParameter("id", this.id)
+       .throwOnMappingFailure(false)
+       .executeAndFetch(Sighting.class);
+     }
+ }
 
-  }
-  }
+  // public void save() {
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "INSERT INTO endangereds (name, health, age, animalId) VALUES (:name, :health, :age, :animalId)";
+  //     this.id = (int) con.createQuery(sql, true)
+  //       .addParameter("name", this.name)
+  //       .addParameter("health", this.health)
+  //       .addParameter("age", this.age)
+  //       .addParameter("animalId", this.animalId)
+  //       .executeUpdate()
+  //       .getKey();
+  //
+  // }
+  // }
 }

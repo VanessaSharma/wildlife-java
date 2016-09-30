@@ -1,0 +1,30 @@
+<img class="main-image jumbotron" src="/images/wildlife.jpg" alt="header">
+
+<h1>Wildlife Tracker</h1>
+
+<h3>Animals</h3>
+#if($animals)
+  <ul>
+    #foreach ($animal in $animals)
+      <li><a href="/persons/$animal.getId()"></a>$animal.getName()</li>
+    #end
+  </ul>
+#else
+  <p></p>
+#end
+
+<form action="/animals" method="post">
+  <label for="name">Animal Name</label>
+  <input type="text" id="name" name="name">
+    </br>
+  <label for="type">Animal Type</label>
+  <input type="text" id="type" name="type">
+    </br>
+  <label for="rangerName">Ranger Name</label>
+  <input type="text" id="rangerName" name="rangerName">
+    <br>
+  <label for="location">Location</label>
+  <input type="text" id="location" name="location">
+    <br>
+  <button class="btn btn-success" type="submit" name="button">Submit Sighting</button>
+</form>
