@@ -1,14 +1,17 @@
 import org.sql2o.*;
 import java.util.List;
 
-public class Animal {
+public abstract class Animal {
   public int id;
   public String name;
+  public boolean type;
 
-  public Animal(String name) {
-    this.name = name;
-    this.save();
-  }
+  //
+  // public Animal(String name) {
+  //   this.name = name;
+  //   this.save();
+  //   this.type = type;
+  // }
 
   public String getName() {
     return name;
@@ -16,6 +19,10 @@ public class Animal {
 
   public int getId() {
     return id;
+  }
+
+  public boolean getType() {
+    return type;
   }
 
   public static List<Animal> all() {
