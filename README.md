@@ -6,7 +6,7 @@ by [Vanessa Palacios Sharma](https://github.com/VanessaSharma)
 ## Description
 Wildlife tracker
 
-![screenshot of project running](picture here)
+![screenshot of project running](screenshot2.jpg)
 
 
 ### Specifications
