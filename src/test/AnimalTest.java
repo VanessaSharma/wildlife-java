@@ -9,17 +9,18 @@ public class AnimalTest {
   @Before
   public void setUp() {
     DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_tracker_test", null, null);
+    animal = new Animal("deer");
   }
 
   @Test
   public void animal_instantiatesCorrectly_true() {
-    Animal animal = new Animal("deer");
+    animal = new Animal("deer");
     assertEquals("deer", animal instanceof Animal);s
   }
 
   @Test
   public void getName_animalInstantiatesWithName_deer() {
-    Animal animal = new Animal("deer");
+    animal = new Animal("deer");
     assertEquals("deer", animal.getName());
   }
 
