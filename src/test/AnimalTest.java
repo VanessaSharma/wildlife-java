@@ -13,14 +13,14 @@ public class AnimalTest {
 
   @Test
   public void animal_instantiatesCorrectly_true() {
-    Animal testAnimal = new Animal("deer");
-    assertEquals("deer", testAnimal instanceof Animal);s
+    Animal animal = new Animal("deer");
+    assertEquals("deer", animal instanceof Animal);s
   }
 
   @Test
   public void getName_animalInstantiatesWithName_deer() {
-    Animal testAnimal = new Animal("deer");
-    assertEquals("deer", testAnimal.getName());
+    Animal animal = new Animal("deer");
+    assertEquals("deer", animal.getName());
   }
 
   @Test
