@@ -44,7 +44,7 @@ public class Sighting extends Animal{
 
   public static Sighting find(int id) {
     try(Connection cn = DB.sql2o.open()) {
-      String sql = "SELECT * FROM endangereds WHERE id=:id:";
+      String sql = "SELECT * FROM sightings WHERE id=:id:";
       Sighting sighting = cn.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetchFirst(Sighting.class);
@@ -64,5 +64,14 @@ public class Sighting extends Animal{
         .getKey();
 
   }
+  }
+
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM sightings WHERE id=:id";
+      con.createQuery(sql)
+      .addParameter("id", id)
+      .executeUpdate();
+    }
   }
 }
