@@ -4,14 +4,8 @@ import java.util.List;
 public abstract class Animal {
   public int id;
   public String name;
-  public boolean type;
+  public String type;
 
-  //
-  // public Animal(String name) {
-  //   this.name = name;
-  //   this.save();
-  //   this.type = type;
-  // }
 
   public String getName() {
     return name;
@@ -21,16 +15,16 @@ public abstract class Animal {
     return id;
   }
 
-  public boolean getType() {
+  public String getType() {
     return type;
   }
 
-  public static List<Animal> all() {
-    String sql = "SELECT * FROM animals";
-    try(Connection cn = DB.sql2o.open()) {
-      return cn.createQuery(sql).executeAndFetch(Animal.class);
-    }
-  }
+  // public static List<Animal> all() {
+  //   String sql = "SELECT * FROM animals";
+  //   try(Connection cn = DB.sql2o.open()) {
+  //     return cn.createQuery(sql).executeAndFetch(Animal.class);
+  //   }
+  // }
 
   public static Animal find(int id) {
     try(Connection cn = DB.sql2o.open()) {

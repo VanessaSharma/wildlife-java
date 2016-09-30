@@ -11,6 +11,7 @@ public class Endangered extends Animal{
   public static final String HEALTHY = "healthy";
   public static final String ILL = "ill";
   public static final String OKAY = "okay";
+
   public static final String NEWBORN = "newborn";
   public static final String YOUNG = "young";
   public static final String OLD = "old";
@@ -39,4 +40,34 @@ public class Endangered extends Animal{
     return id;
   }
 
+  public static List<Endangered> all() {
+    String sql = "SELECT * FROM endangereds";
+    try(Connection cn = DB.sql2o.open()) {
+      return cn.createQuery(sql).executeAndFetch(Endangered.class);
+    }
+  }
+
+  public static Endangered find(int id) {
+    try(Connection cn = DB.sql2o.open()) {
+      String sql = "SELECT * FROM endangereds WHERE id=:id:";
+      Endangered endangered = cn.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Endangered.class);
+      return endangered;
+    }
+  }
+
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO endangereds (name, health, age, animalId) VALUES (:name, :health, :age, :animalId)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", this.name)
+        .addParameter("health", this.health)
+        .addParameter("age", this.age)
+        .addParameter("animalId", this.animalId)
+        .executeUpdate()
+        .getKey();
+
+  }
+  }
 }

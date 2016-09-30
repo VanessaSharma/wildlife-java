@@ -34,4 +34,35 @@ public class Sighting extends Animal{
   public Timestamp getTimeSighted() {
     return timeSighted;
   }
+
+  public static List<Sighting> all() {
+    String sql = "SELECT * FROM sightings";
+    try(Connection cn = DB.sql2o.open()) {
+      return cn.createQuery(sql).executeAndFetch(Sighting.class);
+    }
+  }
+
+  public static Sighting find(int id) {
+    try(Connection cn = DB.sql2o.open()) {
+      String sql = "SELECT * FROM endangereds WHERE id=:id:";
+      Sighting sighting = cn.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Sighting.class);
+      return sighting;
+    }
+  }
+
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO sightings (name, location, rangerName, timeSighted, animalId) VALUES (:name, :location, :rangerName, :timeSighted, :animalId)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", this.name)
+        .addParameter("location", this.location)
+        .addParameter("rangerName", this.rangerName)
+        .addParameter("animalId", this.animalId)
+        .executeUpdate()
+        .getKey();
+
+  }
+  }
 }
