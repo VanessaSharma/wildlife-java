@@ -13,6 +13,7 @@ public class Sighting extends Animal{
     this.location = location;
     this.rangerName = rangerName;
     this.animalId = animalId;
+    this.save();
   }
 
   public String getLocation() {
@@ -37,16 +38,25 @@ public class Sighting extends Animal{
 
   public static List<Sighting> all() {
     String sql = "SELECT * FROM sightings";
-    try(Connection cn = DB.sql2o.open()) {
-      return cn.createQuery(sql).executeAndFetch(Sighting.class);
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Sighting.class);
+    }
+  }
+
+  public static List<Sighting> allbyAnimal(int animalId) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM sightings WHERE animalId=:animalId";
+      return con.createQuery(sql)
+        .addParameter("animalId", animalId)
+        .executeAndFetch(Sighting.class);
     }
   }
 
   public static Sighting find(int id) {
-    try(Connection cn = DB.sql2o.open()) {
+    try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE id=:id:";
-      Sighting sighting = cn.createQuery(sql)
-        .addParameter("id", id)
+      return con.createQuery(sql)
+        .addParameter("id", this.id)
         .executeAndFetchFirst(Sighting.class);
       return sighting;
     }
@@ -54,23 +64,22 @@ public class Sighting extends Animal{
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO sightings (name, location, rangerName, timeSighted, animalId) VALUES (:name, :location, :rangerName, :timeSighted, :animalId)";
+      String sql = "INSERT INTO sightings (location, rangerName, timeSighted, animalId) VALUES (:location, :rangerName, :timeSighted, :animalId)";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
         .addParameter("location", this.location)
         .addParameter("rangerName", this.rangerName)
         .addParameter("animalId", this.animalId)
         .executeUpdate()
         .getKey();
 
-  }
+    }
   }
 
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "DELETE FROM sightings WHERE id=:id";
       con.createQuery(sql)
-      .addParameter("id", id)
+      .addParameter("id", this.id)
       .executeUpdate();
     }
   }
