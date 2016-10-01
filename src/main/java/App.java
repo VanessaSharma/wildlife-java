@@ -19,14 +19,14 @@ public class App {
 
   get("/animals", (request, response) -> {
        Map<String, Object> model = new HashMap<String, Object>();
-       model.put("template", "templates/animals.vtl");
+       model.put("template", "templates/animal.vtl");
        model.put("animals", Animal.all());
        return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
   get("/sightings", (request, response)-> {
     Map<String, Object> model = new HashMap<String, Object>();
-    model.put("template", "templates/sightings.vtl");
+    model.put("template", "templates/sighting.vtl");
     model.put("sightings", Sighting.all());
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
