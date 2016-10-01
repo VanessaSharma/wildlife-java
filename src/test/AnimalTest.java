@@ -5,17 +5,15 @@ import java.util.Arrays;
 
 public class AnimalTest {
   private Animal animal;
+  private Animal animal2;
 
-  @Before
-  public void setUp() {
-    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_tracker_test", null, null);
-    animal = new Animal("deer");
-  }
+  @Rule
+  public DatabaseRule = new DatabaseRule();
 
   @Test
   public void animal_instantiatesCorrectly_true() {
     animal = new Animal("deer");
-    assertEquals("deer", animal instanceof Animal);s
+    assertEquals("deer", animal instanceof Animal);
   }
 
   @Test
@@ -25,26 +23,24 @@ public class AnimalTest {
   }
 
   @Test
-  public void save_returnsIdFromDatabase_true() {
-    assertEquals(true, animal.getId()>0);
+  public void find_returnsCorrectAnimal() {
+    animal = new Animal("deer");
+    animal2 = new Animal("squirrel");
+    assertEquals(Animal.find(animal.getId()), Animal.find(animal2.getId()).getId());
   }
 
   @Test
-  public void find_returnsCorrectAnimal_true() {
-    assertTrue(Animal.find(animal.getId()).getName().equals("deer"));
+  public void all_returnsAllInstances() {
+    animal = new Animal("deer");
+    animal2 = new Animal("squirrel");
+    assertEquals(2, Animal.all().size());
   }
 
   @Test
-  public void all_returnsAllInstances_true() {
-    assertTrue(Animal.all().size()>0);
-  }
-
-  @Test
-  public void tearDown() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM animals *;";
-      con.createQuery(sql).executeUpdate();
-    }
+  public void delete() {
+    animal = new Animal("deer");
+    animal.delete();
+    assertEquals(0, Animal.all().size());
   }
 
 }
