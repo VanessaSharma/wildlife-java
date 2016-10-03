@@ -2,7 +2,7 @@ import org.sql2o.*;
 import java.util.List;
 import java.sql.Timestamp;
 
-public class Sighting extends Animal{
+public class Sighting {
   public int id;
   public String location;
   public String rangerName;
@@ -45,7 +45,7 @@ public class Sighting extends Animal{
 
   public static List<Sighting> allbyAnimal(int animalId) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE animalId=:animalId";
+      String sql = "SELECT * FROM sightings";
       return con.createQuery(sql)
         .addParameter("animalId", animalId)
         .executeAndFetch(Sighting.class);
@@ -55,10 +55,9 @@ public class Sighting extends Animal{
   public static Sighting find(int id) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings WHERE id=:id:";
-      return con.createQuery(sql)
-        .addParameter("id", this.id)
+       return con.createQuery(sql)
+        .addParameter("id", id)
         .executeAndFetchFirst(Sighting.class);
-      return sighting;
     }
   }
 
@@ -81,6 +80,16 @@ public class Sighting extends Animal{
       con.createQuery(sql)
       .addParameter("id", this.id)
       .executeUpdate();
+    }
+  }
+
+  @Override
+  public boolean equals(Object otherSighting) {
+    if(!(otherSighting instanceof Sighting)) {
+      return false;
+    } else {
+      Sighting newSighting = (Sighting) otherSighting;
+      return this.getLocation().equals(newSighting.getLocation()) && this.getRangerName().equals(newSighting.getRangerName());
     }
   }
 }

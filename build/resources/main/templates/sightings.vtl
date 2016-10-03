@@ -1,0 +1,5 @@
+<h1>Animal Sightings</h1>
+
+#foreach($sighting in $sightings)
+  <h4>Location: $sighting.getLocation(), Ranger $sighting.getRangerName()</h4>
+#end
