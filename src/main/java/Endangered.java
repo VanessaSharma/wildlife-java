@@ -14,8 +14,7 @@ public class Endangered extends Animal{
   public static final String OLD = "old";
 
 
-  public Endangered(String name, String endangered, String health, String age) {
-    super(name);
+  public Endangered(String name,String health, String age) {
     this.health = health;
     this.age = age;
   }
@@ -28,15 +27,18 @@ public class Endangered extends Animal{
     return age;
   }
 
- //  @Override
- //  public static List<Endangered> all() {
- //   String sql = "SELECT * FROM animals WHERE type = 'endangered';";
- //   try(Connection con = DB.sql2o.open()) {
- //     return con.createQuery(sql)
- //     .throwOnMappingFailure(false)
- //     .executeAndFetch(Endangered.class);
- //   }
- // }
+  @Override
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO animals (name, health, age, type) VALUES (:name, :health, :age, :type)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", name)
+        .addParameter("health", health)
+        .addParameter("age", age)
+        .executeUpdate()
+        .getKey();
+    }
+  }
   public static Endangered find(int id) {
     try(Connection cn = DB.sql2o.open()) {
       String sql = "SELECT * FROM animals WHERE id=:id:";
@@ -47,28 +49,15 @@ public class Endangered extends Animal{
       return endangered;
     }
   }
-
-  public List<Sighting> getSightings() {
-     try(Connection con = DB.sql2o.open()) {
-       String sql = "SELECT * FROM sightings WHERE animalId = :id;";
-       return con.createQuery(sql)
-       .addParameter("id", this.id)
-       .throwOnMappingFailure(false)
-       .executeAndFetch(Sighting.class);
-     }
- }
-
-  // public void save() {
-  //   try(Connection con = DB.sql2o.open()) {
-  //     String sql = "INSERT INTO endangereds (name, health, age, animalId) VALUES (:name, :health, :age, :animalId)";
-  //     this.id = (int) con.createQuery(sql, true)
-  //       .addParameter("name", this.name)
-  //       .addParameter("health", this.health)
-  //       .addParameter("age", this.age)
-  //       .addParameter("animalId", this.animalId)
-  //       .executeUpdate()
-  //       .getKey();
-  //
-  // }
-  // }
+  @Override
+  public void update() {
+  try(Connection con = DB.sql2o.open()) {
+    String sql = "UPDATE animals SET name = :name, health = :health, age = :age WHERE id = :id";
+    con.createQuery(sql)
+      .addParameter("name", name)
+      .addParameter("health", health)
+      .addParameter("age", age)
+      .addParameter("id", id)
+      .executeUpdate();
+  }
 }

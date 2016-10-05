@@ -4,9 +4,10 @@ import java.util.List;
 public class Animal {
   public int id;
   public String name;
-  public String endangered;
+  public String type;
 
-  public Animal(String endangered) {
+
+  public Animal(String name) {
     this.name = name;
     this.endangered = endangered;
     this.save();
@@ -16,8 +17,8 @@ public class Animal {
     return name;
   }
 
-  public String getEndangered() {
-    return endangered;
+  public String getType() {
+    return type;
   }
 
   public int getId() {
