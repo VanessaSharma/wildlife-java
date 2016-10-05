@@ -7,9 +7,6 @@ public class AnimalTest {
   private Animal animal;
   private Animal animal2;
 
-  @Rule
-  public DatabaseRule = new DatabaseRule();
-
   @Test
   public void animal_instantiatesCorrectly_true() {
     animal = new Animal("deer");
@@ -21,6 +18,13 @@ public class AnimalTest {
     animal = new Animal("deer");
     assertEquals("deer", animal.getName());
   }
+
+  @Test
+  public void getType_animalInstantiatesWithType_String() {
+    animal = new Animal("endangered");
+    assertEquals("endangered", animal.getType());
+  }
+
 
   @Test
   public void find_returnsCorrectAnimal() {

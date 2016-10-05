@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
@@ -12,17 +13,17 @@ public class App {
     String layout = "templates/layout.vtl";
 
   get("/", (request, response) -> {
-       Map<String, Object> model = new HashMap<String, Object>();
-       model.put("template", "templates/index.vtl");
-       model.put("animals", Animal.all());
-       return new ModelAndView(model, layout);
+    Map<String, Object> model = new HashMap<String, Object>();
+    model.put("template", "templates/index.vtl");
+    model.put("animals", Animal.all());
+    return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
   get("/animals", (request, response) -> {
-       Map<String, Object> model = new HashMap<String, Object>();
-       model.put("template", "templates/animals.vtl");
-       model.put("animals", Animal.all());
-       return new ModelAndView(model, layout);
+    Map<String, Object> model = new HashMap<String, Object>();
+    model.put("template", "templates/animals.vtl");
+    model.put("animals", Animal.all());
+    return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
   get("/sightings", (request, response) -> {
@@ -48,24 +49,26 @@ public class App {
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
-  get("/endangered/new", (response, request) -> {
+  get("/endangered/new", (request, response) -> {
     Map<String, Object> model = new HashMap<String, Object>();
+    model.put("endangered", Endangered.all());
     model.put("template", "templates/endangered-entry.vtl");
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
-  post("/endangered/new", (response, request )-> {
+  post("/endangered/new", (request, response) -> {
     Map<String, Object> model = new HashMap<String, Object>();
     String name = request.queryParams("name");
     String health = request.queryParams("health");
     String age = request.queryParams("age");
     String type = "endangered";
-    Endangered endangered = new Endangered(name, health, age, type);
-    endangered.save();
-    model.put("animal", animal);
+    Endangered newEndangered = new Endangered(name, health, age, type);
+    newEndangered.save();
+    model.put("newEndangered", newEndangered);
     response.redirect("/animals");
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
+
 
   get("/sightings/new", (request, response)-> {
     Map<String, Object> model = new HashMap<String, Object>();

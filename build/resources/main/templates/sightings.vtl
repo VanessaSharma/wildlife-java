@@ -1,5 +1,13 @@
-<h1>Animal Sightings</h1>
-
-#foreach($sighting in $sightings)
-  <h4>Location: $sighting.getLocation(), Ranger $sighting.getRangerName()</h4>
-#end
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-4">
+    <a href="/sightings/new"><button type="button" class="btn btn-primary">Add Sighting</button></a>
+    <h1>All Sightings:</h1>
+    #foreach($sighting in $sightings)
+      <h2><a href="/animals/$sighting.getAnimalId()">$Animal.find($sighting.getAnimalId()).getName()</a></h2>
+      <p>$sighting.getTimestamp()</p>
+      <p>
+        Location: $sighting.getLocation(), Ranger: $sighting.getRangerName()
+      </p>
+    #end
+  </div>
+</div>
