@@ -45,7 +45,7 @@ public class Sighting {
 
   public static List<Sighting> allbyAnimal(int animalId) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings";
+      String sql = "SELECT * FROM sightings WHERE animalId=:animalId";
       return con.createQuery(sql)
         .addParameter("animalId", animalId)
         .executeAndFetch(Sighting.class);
@@ -73,6 +73,17 @@ public class Sighting {
 
     }
   }
+  public void update() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE sightings SET location = :location, rangername = :rangername WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("location", location)
+        .addParameter("rangername", rangerName)
+        .addParameter("id", id)
+        .throwOnMappingFailure(false)
+        .executeUpdate();
+    }
+  }
 
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
@@ -83,13 +94,5 @@ public class Sighting {
     }
   }
 
-  @Override
-  public boolean equals(Object otherSighting) {
-    if(!(otherSighting instanceof Sighting)) {
-      return false;
-    } else {
-      Sighting newSighting = (Sighting) otherSighting;
-      return this.getLocation().equals(newSighting.getLocation()) && this.getRangerName().equals(newSighting.getRangerName());
-    }
-  }
+
 }
