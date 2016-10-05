@@ -8,7 +8,7 @@ public class EndangeredTest {
 
   @Before
   public void setUp() {
-    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_tracker_test", null, null);
+    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_test", null, null);
     endangered = new Endangered("deer", "good", 3);
   }
 
@@ -20,7 +20,7 @@ public class EndangeredTest {
 
   @Test
   public void getName_endangeredInstantiatesWithName_deer() {
-    endangered = new Endangered("deer";
+    endangered = new Endangered("deer");
     assertEquals("deer", endangered.getName());
   }
 
@@ -43,7 +43,7 @@ public class EndangeredTest {
 
   @Test
   public void find_returnsCorrectEndangered_true() {
-    assertTrue(Endangered.find(endangered.getId()).getName().equals(endangered.getName());
+    assertTrue(Endangered.find(endangered.getId()).getName().equals(endangered.getName()));
   }
 
   @Test

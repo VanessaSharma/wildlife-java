@@ -10,7 +10,6 @@ public class Animal {
   public Animal(String name, String type) {
     this.name = name;
     this.type = type;
-    // this.save();
   }
 
   public String getName() {

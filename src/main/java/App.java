@@ -3,7 +3,8 @@ import java.util.HashMap;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
-import java.util.ArrayList;
+import java.util.List;
+
 
 public class App {
   public static void main(String[] args) {
@@ -19,7 +20,7 @@ public class App {
 
   get("/animals", (request, response) -> {
        Map<String, Object> model = new HashMap<String, Object>();
-       model.put("template", "templates/animal.vtl");
+       model.put("template", "templates/animals.vtl");
        model.put("animals", Animal.all());
        return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
@@ -40,6 +41,9 @@ public class App {
   post("/animals/new", (request, response) -> {
     Map<String, Object> model = new HashMap<String, Object>();
     String name = request.queryParams("name");
+    String type = request.queryParams("type");
+    Animal animal = new Animal(name, type);
+    animal.save();
     response.redirect("/animals");
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
@@ -55,6 +59,10 @@ public class App {
     String name = request.queryParams("name");
     String health = request.queryParams("health");
     String age = request.queryParams("age");
+    String type = "endangered";
+    Endangered endangered = new Endangered(name, health, age, type);
+    endangered.save();
+    model.put("animal", animal);
     response.redirect("/animals");
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
@@ -77,28 +85,13 @@ public class App {
   }, new VelocityTemplateEngine());
 
   get("/animals/:id", (request, response) -> {
-    Map<String, Object> model = new HashMap<String, Object>(); model.put("animal", Animal.find(Integer.parseInt(request.params(":id")))); model.put("endangered",Endangered.find(Integer.parseInt(request.params(":id"))));
+    Map<String, Object> model = new HashMap<String, Object>();
+    model.put("animal", Animal.find(Integer.parseInt(request.params(":id"))));
+    model.put("endangered", Endangered.find(Integer.parseInt(request.params(":id"))));
     model.put("Sighting", Sighting.class);
-    model.put("template", "templates/animal.vtl"); return new ModelAndView(model, layout);
+    model.put("template", "templates/animal.vtl");
+    return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
-
-  get("/animals/:id/delete", (request, response) -> {
-   Map<String, Object> model = new HashMap<String, Object>(); Animal.find(Integer.parseInt(request.params(":id"))).delete(); response.redirect("/animals");
-   return  new ModelAndView(model, layout);
- }, new VelocityTemplateEngine());
-
-
- get("/sightings/:id/delete", (request, response) -> {
-   Map<String, Object> model = new HashMap<String, Object>(); Sighting.find(Integer.parseInt(request.params(":id"))).delete(); response.redirect("/sightings");
-   return new ModelAndView(model, layout);
- }, new VelocityTemplateEngine());
-
- //
- // get("/animals/:id/edit", (request, response) -> {
- //   Map<String, Object> model = new HashMap<String, Object>(); model.put("animal", Animal.find(Integer.parseInt(request.params(":id")))); model.put("endangered", Endangered.find(Integer.parseInt(request.params(":id")))); model.put("template", "templates/animal-edit.vtl");
- //   return new ModelAndView(model, layout);
- // }, new VelocityTemplateEngine());
-
 
   }
 }
