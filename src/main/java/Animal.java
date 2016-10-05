@@ -7,10 +7,10 @@ public class Animal {
   public String type;
 
 
-  public Animal(String name) {
+  public Animal(String name, String type) {
     this.name = name;
-    this.endangered = endangered;
-    this.save();
+    this.type = type;
+    // this.save();
   }
 
   public String getName() {
