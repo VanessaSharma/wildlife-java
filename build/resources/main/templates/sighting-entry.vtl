@@ -2,13 +2,14 @@
 <div class="row">
   <div class="col-sm-4 col-sm-offset-4">
     <form action="/sightings/new" method="post">
-      <div class="form-group">
+        <div class="form-group">
         <label for="animal" class="in-line">Animal:</label>
-        <input id="animal" name="animal" type="text" class="form-control">
+        <select id="animal" name="animal" type="text" class="form-control">
           #foreach ($animal in $animals)
             <option value="$animal.getId()">$animal.getName()</option>
           #end
-        </input>
+        </select>
+        </select>
       </div>
       <div class="form-group">
         <label for="location">Location:</label>

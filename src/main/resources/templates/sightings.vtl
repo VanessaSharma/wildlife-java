@@ -3,8 +3,7 @@
     <a href="/sightings/new"><button type="button" class="btn btn-primary">Add Sighting</button></a>
     <h3>All Sightings:</h3>
     #foreach($sighting in $sightings)
-      <h5><a href="/sightings/$sighting.getAnimalId()">$Animal.find($sighting.getAnimalId()).getName()</a></h5>
-      <p><em>$sighting.getTimestamp()</em></p>
+      <p><em>$sighting.getTimeSighted()</em></p>
       <p>
         Location: $sighting.getLocation(), Ranger: $sighting.getRangerName()
       </p>

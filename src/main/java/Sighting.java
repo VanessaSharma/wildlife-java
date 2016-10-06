@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class Sighting {
   public int id;
+  public String name;
   public String location;
   public String rangerName;
   public Timestamp timeSighted;
@@ -15,6 +16,7 @@ public class Sighting {
     this.animalId = animalId;
     this.save();
   }
+
 
   public String getLocation() {
     return location;
@@ -54,7 +56,7 @@ public class Sighting {
 
   public static Sighting find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE id=:id:";
+      String sql = "SELECT * FROM sightings WHERE id=:id";
        return con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetchFirst(Sighting.class);

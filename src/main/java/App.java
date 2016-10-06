@@ -73,7 +73,7 @@ public class App {
   get("/sightings/new", (request, response)-> {
     Map<String, Object> model = new HashMap<String, Object>();
     model.put("template", "templates/sighting-entry.vtl");
-    model.put("sightings", Animal.all());
+    model.put("animals", Animal.all());
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
 
@@ -81,9 +81,10 @@ public class App {
     Map<String, Object> model = new HashMap<String, Object>();
     String location = request.queryParams("location");
     String rangerName = request.queryParams("rangerName");
-    // int animalId = Integer.parseInt(request.queryParams("animal"));
-    // Sighting sighting = new Sighting(location, rangerName, animalId);
-    // sighting.save();
+    int animalId = Integer.parseInt(request.queryParams("animal"));
+    Sighting sighting = new Sighting(location, rangerName, animalId);
+    sighting.save();
+    model.put("animals", Animal.all());
     response.redirect("/sightings");
     return new ModelAndView(model, layout);
   }, new VelocityTemplateEngine());
