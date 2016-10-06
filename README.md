@@ -22,7 +22,9 @@ The Forest Service is considering a proposal from a timber company to clearcut a
 ## Setup/Installation
 * Clone directory
 * Setup database in PSQL:
-  * ...
+  * CREATE DATABASE wildlife;
+  * CREATE TABLE animals (id serial PRIMARY KEY, name varchar, health varchar, age varchar, type varchar);
+  * CREATE TABLE sightings (id serial PRIMARY KEY, location varchar, rangerName varchar, animalId int, timeSighted timestamp);
 * Type 'gradle run' inside the directory
 * Navigate to 'http://localhost:4567'
 
