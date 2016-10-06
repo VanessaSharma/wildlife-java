@@ -7,9 +7,13 @@ public class SightingTest {
   private Sighting sighting;
   private Sighting sighting2;
 
-
-  @Rule
-  public DatabaseRule = new DatabaseRule();
+  @Before
+  public void setUp() {
+    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_test", null, null);
+    sighting = new Sighting("Zone A", "Krishan", 1;
+  }
+  // @Rule
+  // public DatabaseRule = new DatabaseRule();
 
   @Test
   public void sighting_instantiatesCorrectly_true() {

@@ -79,8 +79,8 @@ public class App {
 
   post("/sightings/new", (request, response)-> {
     Map<String, Object> model = new HashMap<String, Object>();
-    // String location = request.queryParams("location");
-    // String rangerName = request.queryParams("rangerName");
+    String location = request.queryParams("location");
+    String rangerName = request.queryParams("rangerName");
     // int animalId = Integer.parseInt(request.queryParams("animal"));
     // Sighting sighting = new Sighting(location, rangerName, animalId);
     // sighting.save();
